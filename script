@@ -1,0 +1,122 @@
+Import-Module ActiveDirectory
+
+$var = $true
+
+while ($var) {
+    Write-Host ""
+    Write-Host ""
+    Write-Host "Seleccione una opcion:"
+    Write-Host "(1) Crear Usuario"
+    Write-Host "(2) Crear Grupo"
+    Write-Host "(3) Agregar Usuario a Grupo(s)"
+    Write-Host "(4) Salir"
+    Write-Host ""
+
+    $opcion = Read-Host "Opcion"
+
+    if ($opcion -eq 1) { 
+        Write-Host ""
+        $nombre = Read-Host "Nombre" 
+        $apellido = Read-Host "Apellido" 
+        $usuario = Read-Host "Usuario"
+        $password = Read-Host "Password"
+        Write-Host ""
+        Write-Host "Seleccione una Unidad Oganizacional"
+        Write-Host "(1) Gerencia"
+        Write-Host "(2) Compras"
+        Write-Host "(3) Ventas"
+        Write-Host "(4) Gerencia IT"
+        Write-Host "(5) Asistente IT"
+        Write-Host "(6) Tecnicos IT"
+        Write-Host ""
+        $ou = Read-Host "Seleccion"
+
+        if ($ou -eq 1) { 
+            $path = "OU=Gerencia,OU=Empresa,DC=guatemalanosedetiene,DC=sa"
+        }
+        elseif ($ou -eq 2) { 
+            $path = "OU=Compras,OU=Empresa,DC=guatemalanosedetiene,DC=sa"
+        }
+        elseif ($ou -eq 3) { 
+            $path = "OU=Ventas,OU=Empresa,DC=guatemalanosedetiene,DC=sa"
+        }
+        elseif ($ou -eq 4) { 
+            $path = "OU=Gerencia_IT,OU=IT,OU=Empresa,DC=guatemalanosedetiene,DC=sa"
+        }
+        elseif ($ou -eq 5) { 
+            $path = "OU=Asistente_IT,OU=IT,OU=Empresa,DC=guatemalanosedetiene,DC=sa"
+        }
+        elseif ($ou -eq 6) {
+            $path = "OU=Tecnicos_IT,OU=IT,OU=Empresa,DC=guatemalanosedetiene,DC=sa"
+        }
+        else {
+            $path = "OU=Empresa,DC=guatemalanosedetiene,DC=sa"
+        } 
+
+        $disp = $nombre+" "+$apellido
+
+        $splat = @{
+            Name = $usuario
+            DisplayName = $disp
+            AccountPassword = (ConvertTo-SecureString -AsPlainText $password -Force)
+#            Path = $path
+            Enabled = $true
+        }
+
+        New-ADUser @splat
+        
+    }
+    elseif ($opcion -eq 2) { 
+        $nombreGrupo = Read-Host "Nombre"
+        $scope = Read-Host "(0)DL (1)G (2)U"
+        Write-Host ""
+        Write-Host "Seleccione una Unidad Oganizacional"
+        Write-Host "(1) Gerencia"
+        Write-Host "(2) Compras"
+        Write-Host "(3) Ventas"
+        Write-Host "(4) Gerencia IT"
+        Write-Host "(5) Asistente IT"
+        Write-Host "(6) Tecnicos IT"
+        Write-Host ""
+        $ou = Read-Host "Seleccion"
+
+        if ($ou -eq 1) { 
+            $path = "OU=Gerencia,OU=Empresa,DC=guatemalanosedetiene,DC=sa"
+        }
+        elseif ($ou -eq 2) { 
+            $path = "OU=Compras,OU=Empresa,DC=guatemalanosedetiene,DC=sa"
+        }
+        elseif ($ou -eq 3) { 
+            $path = "OU=Ventas,OU=Empresa,DC=guatemalanosedetiene,DC=sa"
+        }
+        elseif ($ou -eq 4) { 
+            $path = "OU=Gerencia_IT,OU=IT,OU=Empresa,DC=guatemalanosedetiene,DC=sa"
+        }
+        elseif ($ou -eq 5) { 
+            $path = "OU=Asistente_IT,OU=IT,OU=Empresa,DC=guatemalanosedetiene,DC=sa"
+        }
+        elseif ($ou -eq 6) {
+            $path = "OU=Tecnicos_IT,OU=IT,OU=Empresa,DC=guatemalanosedetiene,DC=sa"
+        }
+        else {
+            $path = "OU=Empresa,DC=guatemalanosedetiene,DC=sa"
+        }
+
+        $splat = @{
+            Name = $nombreGrupo
+            GroupScope = $scope
+#            Path = $path
+            GroupCategory ="Security"
+        }
+    }
+    elseif ($opcion -eq 3) { 
+        Write-Host "Selecciono la opcion 3"
+    }
+    elseif ($opcion -eq 4) { 
+        Write-Host "Adios"
+        $var = $false
+    }
+    else { 
+        Write-Host "Opcion Invalida"
+    }
+}

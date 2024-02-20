@@ -1,0 +1,16 @@
+# Script para crear un grupo en Active Directory
+
+# Importar módulo Active Directory
+Import-Module ActiveDirectory
+
+# Definir variables
+$nombreGrupo = &quot;GrupoScript&quot;
+$descripcionGrupo = &quot;Grupo para el departamento de ventas&quot;
+$ou = &quot;OU=Gerencia,DC=guatemalanosedetiene,DC=sa&quot;
+
+# Crear nuevo grupo
+New-ADGroup -Name $nombreGrupo `
+-Description $descripcionGrupo `
+-GroupCategory &quot;Security&quot; `
+-SamAccountName $GrupoScript `
+-Path $ou

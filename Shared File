@@ -4,9 +4,9 @@
 Import-Module ActiveDirectory
 
 # Definir variables
-$nombreCarpeta = &quot;Carpetaproyecto&quot;
-$rutaCarpeta = &quot;\\WIN-G6446B4SAF0.guatemalanosedetiene.sa\Data\Carpetaproyecto&quot;
-$descripcionCarpeta = &quot;Carpeta compartida para el departamento de ventas&quot;
+$nombreCarpeta = "Carpetaproyecto"
+$rutaCarpeta = "\\WIN-G6446B4SAF0.guatemalanosedetiene.sa\Data\Carpetaproyecto"
+$descripcionCarpeta = "Carpeta compartida para el departamento de ventas"
 $permisos = New-Object -TypeName System.Security.AccessControl.DirectorySecurity
 
 # Crear la carpeta

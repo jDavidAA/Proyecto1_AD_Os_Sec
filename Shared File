@@ -1,0 +1,19 @@
+# Script para crear una carpeta compartida en Active Directory
+
+# Importar módulo Active Directory
+Import-Module ActiveDirectory
+
+# Definir variables
+$nombreCarpeta = &quot;Carpetaproyecto&quot;
+$rutaCarpeta = &quot;\\WIN-G6446B4SAF0.guatemalanosedetiene.sa\Data\Carpetaproyecto&quot;
+$descripcionCarpeta = &quot;Carpeta compartida para el departamento de ventas&quot;
+$permisos = New-Object -TypeName System.Security.AccessControl.DirectorySecurity
+
+# Crear la carpeta
+New-Item -Path $rutaCarpeta -ItemType Directory
+
+# Compartir la carpeta
+New-SmbShare -Name $nombreCarpeta -Path $rutaCarpeta -Description $descripcionCarpeta
+
+# Mostrar información de la carpeta compartida
+Get-SmbShare -Name $nombreCarpeta

@@ -1,0 +1,26 @@
+# Script para modificar permisos en una carpeta compartida
+
+# Importar módulos
+Import-Module ActiveDirectory
+
+# Definir variables
+$nombreCarpeta = "Carpetaproyecto"
+$rutaCarpeta = "\\WIN-G6446B4SAF0.guatemalanosedetiene.sa\Data\Carpetaproyecto"
+$descripcionCarpeta = "Carpeta compartida para el departamento de ventas"
+
+# Obtener el descriptor de seguridad de la carpeta
+$acl = Get-Acl -Path $rutaCarpeta
+
+# Definir nuevo permiso con el grupo GTI
+$grupoGTI = "GTI"
+$permisoNuevo = New-Object -TypeName System.Security.AccessControl.FileSystemAccessRule
+($grupoGTI, "Modify", "Allow")
+
+# Agregar permiso a la ACL
+$acl.AddAccessRule($permisoNuevo)
+
+# Establecer nueva ACL en la carpeta
+Set-Acl -Path $rutaCarpeta -AclObject $acl
+
+# Obtener información actualizada
+Get-SmbShare -Name $nombreCarpeta

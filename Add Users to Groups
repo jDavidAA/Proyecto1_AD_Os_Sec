@@ -1,0 +1,43 @@
+# Script para crear usuarios y agregarlos a grupos en Active Directory
+
+# Importar módulo ActiveDirectory
+Import-Module ActiveDirectory
+
+# Definir variables
+$dominio = "guatemalanosedetiene.sa"
+$contraseña = "Contraseña123" # Cambiar por una contraseña segura
+
+# Crear usuarios
+$usuarios = @{
+"Usuario1" = @{
+"OU" = "Gerencia"
+}
+"Usuario2" = @{
+"OU" = "Ventas"
+}
+"Usuario3" = @{
+"OU" = "Compras"
+}
+}
+
+foreach ($nombreUsuario, $usuario in $usuarios) {
+New-ADUser -Name $nombreUsuario -SamAccountName $nombreUsuario -Password
+$contraseña -Domain $dominio -OrganizationalUnit $usuario.OU
+}
+
+# Obtener grupos
+$grupos = @{
+
+"Usuario1" = "Gerencia"
+"Usuario2" = "GVentas"
+"Usuario3" = "GCompras"
+}
+
+# Agregar usuarios a grupos
+foreach ($nombreUsuario, $grupo in $grupos) {
+$usuario = Get-ADUser -Name $nombreUsuario -Domain $dominio
+Add-ADGroupMember -Identity $grupo -Members $usuario
+}
+
+# Mostrar mensaje de éxito
+Write-Host "Usuarios creados y agregados a los grupos correctamente."
